@@ -12,6 +12,7 @@ class CalculaIpv4:
         print(f'IP: {ip}, Bit rede: {bit_de_rede}')
         print(self.decimal_para_binario(ip))
         print(self.mascara_sub_rede(ip, bit_de_rede))
+        print(self.formatar_ip(ip))
     
     def mascara_sub_rede(self, ip, bit_de_rede):
         ip_binario = self.decimal_para_binario(ip)
@@ -47,6 +48,12 @@ class CalculaIpv4:
             dec_binario = dec_binario[::-1]
             ip_binario.append(dec_binario)
         return ip_binario
+    
+    def formatar_ip(self, ip, bit_de_rede=None):
+        novo_ip = '.'.join(map(str, ip))
+        if bit_de_rede:
+            novo_ip += f'/{bit_de_rede}'
+        return novo_ip
 
     def remover_caracteres(self, ip):
         ip, bit_rede = ip.split('/')
@@ -57,4 +64,4 @@ ip = '10.20.12.45/26'
 calc_ip = CalculaIpv4(ip)
 print(calc_ip.bit_de_rede)
 print(calc_ip.mascara)
-# calc_ip.teste()
+calc_ip.teste()
