@@ -1,4 +1,3 @@
-
 class CalculaIpv4:
     def __init__(self, ip, mascara) -> None:
         self.ip = ip
@@ -7,6 +6,14 @@ class CalculaIpv4:
         self.rede = self.calc_ip_rede(ip, mascara)
         self.broadcast = self.calc_broadcast(ip, mascara)
         self.numero_ips = self.calc_numero_de_ips(mascara)
+        self.ips_usaveis = self.calc_ips_usaveis(self.rede, self.broadcast)
+
+    def calc_ips_usaveis(self, rede, broadcast):
+        rede = self.remover_caracteres(rede)
+        broadcast = self.remover_caracteres(broadcast)
+        rede[3] += 1
+        broadcast[3] -= 1
+        return f'{self.formatar_ip(rede)} - {self.formatar_ip(broadcast)}'
 
     def calc_numero_de_ips(self, mascara):
         bits_da_mascara = self.decimal_para_binario(mascara)[3]
@@ -76,13 +83,11 @@ class CalculaIpv4:
 
     @staticmethod
     def remover_caracteres(ip):
-        # ip, bit_rede = ip.split('/')
         ip = [int(n) for n in ip.split('.')]
         return ip
 
 
-# ip = '10.20.12.45'
-mascara = '255.255.255.192'
+mascara = '255.254.0.0'
 ip = '192.168.0.25'
 calc_ip = CalculaIpv4(ip, mascara)
 print(f'IP: {calc_ip.ip}')
@@ -91,3 +96,4 @@ print(f'Rede: {calc_ip.rede}')
 print(f'Broadcast: {calc_ip.broadcast}')
 print(f'Prefixo: {calc_ip.prefixo}')
 print(f'N° de ips: {calc_ip.numero_ips}')
+print(f'Ips Usáveis: {calc_ip.ips_usaveis}')
