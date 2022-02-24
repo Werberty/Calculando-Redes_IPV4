@@ -1,3 +1,6 @@
+import re
+
+
 class CalculaIpv4:
     def __init__(self, ip, mascara) -> None:
         self.ip = ip
@@ -7,6 +10,32 @@ class CalculaIpv4:
         self.broadcast = self.calc_broadcast(ip, mascara)
         self.numero_ips = self.calc_numero_de_ips(mascara)
         self.ips_usaveis = self.calc_ips_usaveis(self.rede, self.broadcast)
+    
+    @property
+    def ip(self):
+        return self._ip
+    
+    @property
+    def mascara(self):
+        return self._mascara
+    
+    @ip.setter
+    def ip(self, valor):
+        if not self.validar_ip(valor):
+            raise ValueError('Ip inválido!')
+        self._ip = valor
+    
+    @mascara.setter
+    def mascara(self, valor):
+        if not self.validar_ip(valor):
+            raise ValueError('Máscara inválida!')
+        self._mascara = valor
+    
+    @staticmethod
+    def validar_ip(ip):
+        regexp = re.compile(r'^([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3})$')
+        if regexp.search(ip):
+            return True
 
     def calc_ips_usaveis(self, rede, broadcast):
         rede = self.remover_caracteres(rede)
