@@ -10,30 +10,31 @@ class CalculaIpv4:
         self.broadcast = self.calc_broadcast(ip, mascara)
         self.numero_ips = self.calc_numero_de_ips(mascara)
         self.ips_usaveis = self.calc_ips_usaveis(self.rede, self.broadcast)
-    
+
     @property
     def ip(self):
         return self._ip
-    
+
     @property
     def mascara(self):
         return self._mascara
-    
+
     @ip.setter
     def ip(self, valor):
         if not self.validar_ip(valor):
             raise ValueError('Ip inválido!')
         self._ip = valor
-    
+
     @mascara.setter
     def mascara(self, valor):
         if not self.validar_ip(valor):
             raise ValueError('Máscara inválida!')
         self._mascara = valor
-    
+
     @staticmethod
     def validar_ip(ip):
-        regexp = re.compile(r'^([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3})$')
+        regexp = re.compile(
+            r'^([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3}).([0-9]{1,3})$')
         if regexp.search(ip):
             return True
 
@@ -114,15 +115,3 @@ class CalculaIpv4:
     def remover_caracteres(ip):
         ip = [int(n) for n in ip.split('.')]
         return ip
-
-
-mascara = '255.254.0.0'
-ip = '192.168.0.25'
-calc_ip = CalculaIpv4(ip, mascara)
-print(f'IP: {calc_ip.ip}')
-print(f'Máscara: {calc_ip.mascara}')
-print(f'Rede: {calc_ip.rede}')
-print(f'Broadcast: {calc_ip.broadcast}')
-print(f'Prefixo: {calc_ip.prefixo}')
-print(f'N° de ips: {calc_ip.numero_ips}')
-print(f'Ips Usáveis: {calc_ip.ips_usaveis}')
